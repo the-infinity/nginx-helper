@@ -19,6 +19,13 @@
 class FastCGI_Purger extends Purger {
 
 	/**
+	 * Constructor
+	 */
+	public function __construct() {
+                add_action('nginx_helper_unlink_recursive', array($this, 'unlink_recursive'), 10, 2);
+        }
+	
+	/**
 	 * Function to purge url.
 	 *
 	 * @param string $url URL.
@@ -160,8 +167,7 @@ class FastCGI_Purger extends Purger {
 	 * Purge everything.
 	 */
 	public function purge_all() {
-
-		$this->unlink_recursive( RT_WP_NGINX_HELPER_CACHE_PATH, false );
+		do_action('nginx_helper_unlink_recursive', RT_WP_NGINX_HELPER_CACHE_PATH, false);
 		$this->log( '* * * * *' );
 		$this->log( '* Purged Everything!' );
 		$this->log( '* * * * *' );
